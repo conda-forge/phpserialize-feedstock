@@ -4,23 +4,24 @@
 
 package:
   name: {{ name|lower }}
-  version: {{ version }}
+  version: "{{ version }}"
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/phpserialize-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/phpserialize-{{ version }}.tar.gz
   sha256: bf672d312d203d09a84c26366fab8f438a3ffb355c407e69974b7ef2d39a0fa7
 
 build:
-  number: 0
+  number: 1
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv
 
 requirements:
   host:
+    - setuptools
     - pip
-    - python >=3.6
+    - python {{ python_min }}
   run:
-    - python >=3.6
+    - python >={{ python_min }}
 
 test:
   imports:
@@ -28,7 +29,9 @@ test:
   commands:
     - pip check
   requires:
+    - setuptools
     - pip
+    - python {{ python_min }}
 
 about:
   home: http://github.com/mitsuhiko/phpserialize
